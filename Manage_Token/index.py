@@ -34,8 +34,8 @@ def Token_Manager():
     db_query = getToken()
     expires_on = db_query["expires_on"]
 
-    # Recupera hora para verificação
-    local_time = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime())
+    # Recupera a hora local para verificação, obs: para evitar possíveis erros atrasa em 5min o horario
+    local_time = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time.time() - 300))
 
     # Verifica se o token está expirado
     if expires_on > local_time:
