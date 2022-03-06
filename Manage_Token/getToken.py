@@ -15,6 +15,10 @@ refresh_token = data["refresh_token"]
 token_id = data["id_token"]
 expires_on = data["expires_on"]
 
+# Formating fild expires_on to date and time
+expires_on = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(expires_on))
+
+# Definindo dia e hora da criação do token
 created_at = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime())
 
 # Criando objeto com as informações retornadas da API
