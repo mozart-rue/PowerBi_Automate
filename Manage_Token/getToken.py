@@ -13,6 +13,7 @@ api_token = data["access_token"]
 token_type = data["token_type"]
 refresh_token = data["refresh_token"]
 token_id = data["id_token"]
+expires_on = data["expires_on"]
 
 created_at = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime())
 
@@ -22,6 +23,7 @@ tokens = {
         "token_type": f"{token_type}",
         "refresh_token": f"{refresh_token}",
         "id_token": f"{token_id}",
-        "created_at": f"{created_at}"
+        "created_at": f"{created_at}",
+        "expires_on": f"{expires_on}"
         }
 
