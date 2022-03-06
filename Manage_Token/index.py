@@ -31,16 +31,17 @@ def getToken():
 # Gerencia se vai criar novo token ou usar existente
 def Token_Manager():
     # Recuperar do banco hora que expira a chave
-    api_return = getToken()
-    expires_on = api_return["expires_on"]
+    db_query = getToken()
+    expires_on = db_query["expires_on"]
 
     # Recupera hora para verificação
     local_time = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime())
 
     # Verifica se o token está expirado
     if expires_on > local_time:
-        print('O Token está valido')
+        return db_query
     else:
-        print('Precisa gerar um novo token')
+        postToken()
+        query = getToken()
+        return query
 
-Token_Manager()
