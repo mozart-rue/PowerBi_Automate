@@ -1,9 +1,12 @@
+import sys
+sys.path.append('..')
+
 # Importando Bibliotecas
 import json
 import time
 
 # Importando arquivos
-import main 
+import Manage_Token.main as main 
 
 # Convertendo definitivamente o retorno da API em JSON
 data = json.loads(main.response.text)
