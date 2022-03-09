@@ -5,11 +5,9 @@ import time
 
 from database.firebase import main
 
-# Cria conexão com o firebase
-db = main.db
 
 # Gera novo token e salva no firebase
-def postToken():
+def postToken(db):
     # Faz a importação dentro da função para executar somente quando for chamado
     from Manage_Token import getToken
     
@@ -22,7 +20,7 @@ def postToken():
 
 
 # Faz a consulta ao banco de dados e retorna 
-def getToken():
+def getToken(db):
     query = db.collection('API').document('token').get()
     query = query.to_dict()
     return query
@@ -30,8 +28,12 @@ def getToken():
 
 # Gerencia se vai criar novo token ou usar existente
 def Token_Manager():
+    # Precisa receber o path do arquivo que chama a função até a pasta database
+    # Criando conexão com o firestore
+    db = main.DB_Conn()
+
     # Recuperar do banco hora que expira a chave
-    db_query = getToken()
+    db_query = getToken(db)
     expires_on = db_query["expires_on"]
 
     # Recupera a hora local para verificação, obs: para evitar possíveis erros atrasa em 5min o horario
@@ -41,7 +43,7 @@ def Token_Manager():
     if expires_on > local_time:
         return db_query
     else:
-        postToken()
-        query = getToken()
+        postToken(db)
+        query = getToken(db)
         return query
 
