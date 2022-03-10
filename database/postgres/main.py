@@ -23,3 +23,14 @@ def PgEngineConn():
 
     return pgConn
 
+# - Conexão com cursor (pyscopg2)
+def PgConnect():
+    # Criando conexão com o postgres
+    conn = psycopg2.connect(
+            host = f'{pg_host}',
+            database = f'{pg_db}',
+            user = f'{pg_user}',
+            password = f'{pg_key}'
+            )
+
+    return conn
