@@ -30,6 +30,7 @@ import pandas as pd
 
 # Importando arquivos
 import Manage_Token.index as MT
+import database.postgres.main as db_engine
 
 # Recuperando dados de acesso
 access_object = MT.Token_Manager()
@@ -63,4 +64,13 @@ def GET_Datasets():
     # Filtrando os dados do Dataframe
     response_df = response_df[["id", "name", "webUrl", "isRefreshable", "isOnPremGatewayRequired"]]
 
-    print(response_df)
+    # Criar conexão com banco
+    engine = db_engine.PgEngineConn()
+
+    # Inserindo o dataframe no banco de dados
+    try:
+        response_df.to_sql('datasets', engine, if_exists='replace', index= False)
+    except Exception as err:
+        print(f'Inserindo dataframe no banco :: error: {err}')
+
+GET_Datasets()
