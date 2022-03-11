@@ -1,5 +1,6 @@
 # API: GET Datasources 
 # Documentation: https://docs.microsoft.com/en-us/rest/api/power-bi/datasets/get-datasources
+# Documentatio 2: https://docs.microsoft.com/en-us/rest/api/power-bi/gateways/get-datasource
 
 # ----------------------- ADD RAIZ DO PROJETO AO ARQUIVO  ----------------------- #
 # Adicionando o path para a Raiz do projeto dinamicamente para fazer a importação de arquivos.py
@@ -29,26 +30,29 @@ import Manage_Token.index as tkn
 import database.postgres.main as pgconnection
 
 
-# Criando conexão com o Postgres
-conn = pgconnection.PgConnect()
+try:
+    # Criando conexão com o Postgres
+    conn = pgconnection.PgConnect()
 
-# definindo o cursor 
-cur = conn.cursor()
+    # definindo o cursor 
+    cur = conn.cursor()
 
-# Fazendo consulta no postgres
-query = 'Select id, name from datasets'
+    # Fazendo consulta no postgres
+    query = 'Select id, name from datasets'
 
-cur.execute(query)
+    cur.execute(query)
 
-db_return = cur.fetchall()
+    db_return = cur.fetchall()
 
-cur.close()
-conn.close()
+    # Fechando o cursor e conexão 
+    cur.close()
+    conn.close()
 
-print(f'Data retrived from db:\n {db_return}')
+    connected = True
+except Exception as error: 
+    print(f'datasetsController : PG Connection: ERROR :: {error}')
+    connected = False
 
-filter_return = db_return[0]
-dataset_id, dataset_name = filter_return
 
-print(f'The dataset {dataset_name} has the id: {dataset_id}')
+
 
