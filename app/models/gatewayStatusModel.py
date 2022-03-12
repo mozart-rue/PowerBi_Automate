@@ -20,4 +20,38 @@ path = Resolve_Path()
 sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
+import database.postgres.main as database
+
+# Função que faz a inserção do dados 
+def Insert_Gateways(data):
+    
+    # recuperando valores para inserir
+    dataset_name = data["datasetName"]
+    datasource_name = data["datasourceName"]
+    datasource_id = data["datasourceId"]
+    gateway_id = data["gatewayId"]
+    gateway_name = data["gatewayName"]
+    datasource_status = data["datasourceStatus"]
+    inserted_at = data["insertedAt"]
+
+    # Criando query de inserção dos dados
+    query = f""" INSERT INTO gateways (
+                        dataset_name,
+	                    datasource_name,
+	                    datasource_id,
+	                    gateway_id,
+                        gateway_name,
+	                    datasource_status,
+	                    inserted_at
+                        ) VALUES (
+                            '{dataset_name}',
+                            '{datasource_name}',
+                            '{datasource_id}',
+                            '{gateway_id}',
+                            '{gateway_name}',
+                            '{datasource_status}',
+                            '{inserted_at}'
+                            );
+                            """
+
 
