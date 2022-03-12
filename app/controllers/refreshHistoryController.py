@@ -24,6 +24,7 @@ path = Resolve_Path()
 sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
+import requests
 
 import database.postgres.main as database
 import Manage_Token.index as tkn
@@ -50,8 +51,30 @@ except Exception as err:
     connected = False
 
 if connected == True:
-    print(db_return)
+   
+    # Defininindo parametros para fazer o request da API
+    access_list = tkn.Token_Manager()
 
+    token_type = access_list["token_type"]
+    token = access_list["access_token"]
+
+    header = {
+            "Authorization": f"{token_type} {token}"
+            }
+
+    # Percore a lista de itens retornados do DB e faz o request na API
+    for datasetId, name in db_return:
+
+        url = f'https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/refreshes'
+
+        response = requests.request("GET", url, headers= header)
+
+        res = response.json()
+        data = res["value"]
+
+        print(data)
+
+    
 else:
     print('getRefreshHistoryController :: Erro => Não foi possivel executar a query no banco de dados')
 
