@@ -25,4 +25,33 @@ sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
 
+import database.postgres.main as database
+import Manage_Token.index as tkn
+
+# Recuperando dados do banco para usar como parametro
+try:
+    conn = database.PgConnect()
+
+    # Criando cursor
+    cur = conn.cursor()
+
+    # Executando query no banco
+    cur.execute("SELECT id, name FROM datasets")
+    db_return = cur.fetchall()
+
+    # Encera a conexão com o banco de dados
+    cur.close()
+    conn.close()
+    
+    connected = True
+
+except Exception as err:
+    print(f'getRefreshHistoryController :: query select na base de dados :: ERRO => {err}')
+    connected = False
+
+if connected == True:
+    print(db_return)
+
+else:
+    print('getRefreshHistoryController :: Erro => Não foi possivel executar a query no banco de dados')
 
