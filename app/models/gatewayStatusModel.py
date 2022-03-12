@@ -82,7 +82,7 @@ def Delete_Gateways():
         conn = database.PgConnect()
 
         cur = conn.cursor()
-        cur.execute("DELETE * FROM gateways")
+        cur.execute("DELETE FROM gateways")
         conn.commit()
 
         cur.close()
