@@ -35,16 +35,20 @@ def Insert_Datasources(data):
     conn_type = data["conn_type"]
     cred_type = data["cred_type"]
     gateway_id = data["gateway_id"]
+    gateway_name = data["gateway_name"]
+    gateway_status = data["gateway_status"]
     datasource_id = data["datasource_id"]
     inserted_at = data["inserted_at"]
 
     # Criando a query de inserção
     query = f""" INSERT INTO datasources (
                 dataset_id,
-	            dataset_nome,
-	            datasource_nome,
+	            dataset_name,
+	            datasource_name,
         	    datasource_id,
 	            gateway_id,
+                gateway_name,
+                gateway_status,
 	            conection_type,
 	            cred_type,
 	            inserted_at
@@ -54,6 +58,8 @@ def Insert_Datasources(data):
                 '{datasource_name}',
                 '{datasource_id}',
                 '{gateway_id}',
+                '{gateway_name}',
+                '{gateway_status}',
                 '{conn_type}',
                 '{cred_type}',
                 '{inserted_at}'
