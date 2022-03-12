@@ -87,6 +87,18 @@ if connected == True:
                 history_id = i["id"]
 
                 created_at = datetime.now()
+                
+                # removendo strings da data de retorno
+                start_time = start_time.replace("T", " ")
+                start_time = start_time.replace("Z", "")
+
+                end_time = end_time.replace("T", " ")
+                end_time = end_time.replace("Z", "")
+
+                # alterando formato de campo de data de string para date
+                startTime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
+                endTime = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S.%f')
+                total_time = endTime - startTime
 
                 # Criando dict para inserir no banco
                 insert = {
@@ -94,8 +106,9 @@ if connected == True:
                         "dataset_id": f"{datasetId}",
                         "status": f"{status}",
                         "refresh_type": f"{refresh_type}",
-                        "start_time": f"{start_time}",
-                        "end_time": f"{end_time}",
+                        "start_time": f"{startTime}",
+                        "end_time": f"{endTime}",
+                        "total_time": f"{total_time}",
                         "request_id": f"{request_id}",
                         "history_id": f"{history_id}",
                         "inserted_at": f"{created_at}"
