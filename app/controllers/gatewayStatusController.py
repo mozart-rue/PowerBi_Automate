@@ -24,6 +24,7 @@ sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
 import requests
+from datetime import datetime
 
 import Manage_Token.index as tkn
 import database.postgres.main as database
@@ -67,7 +68,7 @@ if connected == True:
     token_type = access_list["token_type"]
     token = access_list["access_token"]
 
-    header = {
+    header = { 
             "Authorization": f"{token_type} {token}"
             }
 
@@ -87,5 +88,19 @@ if connected == True:
         else:
             stauts = 'undefined'
 
-        print(f'Status: {status} with Code: {is_active}')
+        inserted_at = datetime.now()
+
+        # Definindo dict para inserir no banco
+        insert = {
+                "datasetName": f'{datasetName}',
+                "datasourceName": f'{datasourceName}',
+                "datasourceId": f'{datasourceId}',
+                "gatewayId": f'{gatewayId}',
+                "gatewayName": f'{gatewayName}',
+                "datasourceStatus": f'{status}',
+                "insertedAt": f'{inserted_at}'
+                }
+
+        print(f'{insert}\n')
+
 
