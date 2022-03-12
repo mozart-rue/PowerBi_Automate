@@ -53,11 +53,11 @@ def Insert_RefreshHistory(data):
                         '{dataset_id}',
                         '{status}',
                         '{refresh_type}',
+                        '{request_id}',
+                        '{history_id}',
                         '{start_time}',
                         '{end_time}',
                         '{total_time}',
-                        '{request_id}',
-                        '{history_id}',
                         '{inserted_at}'
                         ); """
 
@@ -77,4 +77,25 @@ def Insert_RefreshHistory(data):
     except Exception as err:
         print(f'refreshHistoryModel :: Inserindo dados no banco :: ERROR => {err}')
         return False
+
+
+# Funçao que faz delete 
+def Delete_RefreshHistory(date, name, dataset_id):
+    
+    # define a query para deletar
+    query = f"DELETE FROM refresh_history where started_at >= '{date}' and dataset_name = '{name}' and dataset_id = '{dataset_id}'"
+
+    #cria conexão com o banco
+    try:
+        conn = database.PgConnect()
+
+        cur = conn.cursor()
+        cur.execute(query)
+        conn.commit()
+
+        cur.close()
+        conn.close()
+    except Exception as err:
+        print(f'refreshHistoryModel :: Delete from database :: ERROR => {err}')
+        pass
 
