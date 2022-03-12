@@ -65,7 +65,7 @@ if connected == True:
     # Percore a lista de itens retornados do DB e faz o request na API
     for datasetId, name in db_return:
 
-        url = f'https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/refreshes'
+        url = f'https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/refreshes?$top=10'
 
         response = requests.request("GET", url, headers= header)
 
