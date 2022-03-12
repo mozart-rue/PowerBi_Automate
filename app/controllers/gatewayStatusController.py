@@ -23,4 +23,42 @@ path = Resolve_Path()
 sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
+import requests
 
+import Manage_Token.index as tkn
+import database.postgres.main as database
+
+try:
+    # Cria conexao com o banco
+    conn = database.PgConnect()
+
+    # Cria cursor para fazer a query
+    cur = conn.cursor()
+
+    # Definindo a query
+    query = """SELECT
+                dataset_name,
+                datasource_name,
+                datasource_id,
+                gateway_name,
+                gateway_id
+               FROM datasources
+               """
+
+    # Aplicando a consulta no banco
+    cur.execute(query)
+
+    db_return = cur.fetchall()
+
+    # Encerando o cursor e conexao
+    cur.close()
+    conn.close()
+
+    connected = True
+except Exception as err:
+    print(f'gatewayStatusController :: query database => ERROR => {err}')
+    connected = False
+
+if connected == True:
+
+    print(db_return)
