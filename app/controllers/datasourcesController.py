@@ -25,6 +25,7 @@ sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
 import requests
+from datetime import datetime
 
 import Manage_Token.index as tkn
 import database.postgres.main as pgconnection
@@ -99,6 +100,8 @@ if connected == True:
         except:
             datasource_name = "undefined"
         
+        inserted_at = datetime.now()
+
         print(f"""
                     dataset_name: {name},
                     dataset_id: {datasetId},
@@ -107,6 +110,7 @@ if connected == True:
                     cred_type: {credential_type},
                     gateway_id: {gatewayId},
                     datasource_id: {datasourceId}
+                    inserted_at: {inserted_at}
                 \n""")
 
 
