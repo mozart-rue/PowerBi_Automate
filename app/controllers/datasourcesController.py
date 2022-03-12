@@ -86,6 +86,17 @@ if connected == True:
         url_gw = f'https://api.powerbi.com/v1.0/myorg/gateways/{gatewayId}/datasources/{datasourceId}'
 
         datasource_detailed = requests.request("GET", url_gw, headers= header )
+        
+        # Chamando API que retorna detalhes sobre o gateway
+        url_gw_detail = f'https://api.powerbi.com/v1.0/myorg/gateways/{gatewayId}'
+
+        gateway_detailed = requests.request("GET", url_gw_detail, headers= header)
+
+        # Recuperando dados detalhados do gateway
+        gw_data = gateway_detailed.json()
+        
+        gateway_name = gw_data["name"]
+        gateway_status = gw_data["gatewayStatus"]
 
         # Recuperando dados do datasource detailed
 
@@ -108,6 +119,8 @@ if connected == True:
                 "datasource_name": f'{datasource_name}',
                 "datasource_id": f'{datasourceId}',
                 "gateway_id": f'{gatewayId}',
+                "gateway_name": f'{gateway_name}',
+                "gateway_status": f'{gateway_status}',
                 "conn_type": f'{datasource_type}',
                 "cred_type": f'{credential_type}',
                 "inserted_at": f'{inserted_at}'
