@@ -28,6 +28,7 @@ from datetime import datetime
 
 import Manage_Token.index as tkn
 import database.postgres.main as database
+import app.models.gatewayStatusModel as dataModel
 
 try:
     # Cria conexao com o banco
@@ -71,36 +72,49 @@ if connected == True:
     header = { 
             "Authorization": f"{token_type} {token}"
             }
+    
+    # Limpa a tabela antes de inserir novos valores
+    if dataModel.Delete_Gateways() == True:
 
-    # Percorendo a lista de retorno do banco e fazendo o request da API
-    for datasetName, datasourceName, datasourceId, gatewayName, gatewayId in db_return:
+        # Percorendo a lista de retorno do banco e fazendo o request da API
+        for datasetName, datasourceName, datasourceId, gatewayName, gatewayId in db_return:
 
-        url = f'https://api.powerbi.com/v1.0/myorg/gateways/{gatewayId}/datasources/{datasourceId}/status'
+            url = f'https://api.powerbi.com/v1.0/myorg/gateways/{gatewayId}/datasources/{datasourceId}/status'
 
-        response = requests.request("GET", url, headers= header)
+            
+            response = requests.request("GET", url, headers= header)
 
-        is_active = response.status_code
+            is_active = response.status_code
 
-        if is_active == 400:
-            status = 'inativo'
-        elif is_active == 200:
-            status = 'ativo'
-        else:
-            stauts = 'undefined'
+            if is_active == 400:
+                status = 'inativo'
+            elif is_active == 200:
+                status = 'ativo'
+            else:
+                stauts = 'undefined'
 
-        inserted_at = datetime.now()
+            inserted_at = datetime.now()
 
-        # Definindo dict para inserir no banco
-        insert = {
-                "datasetName": f'{datasetName}',
-                "datasourceName": f'{datasourceName}',
-                "datasourceId": f'{datasourceId}',
-                "gatewayId": f'{gatewayId}',
-                "gatewayName": f'{gatewayName}',
-                "datasourceStatus": f'{status}',
-                "insertedAt": f'{inserted_at}'
-                }
+            # Definindo dict para inserir no banco
+            insert = {
+                    "datasetName": f'{datasetName}',
+                    "datasourceName": f'{datasourceName}',
+                    "datasourceId": f'{datasourceId}',
+                    "gatewayId": f'{gatewayId}',
+                    "gatewayName": f'{gatewayName}',
+                    "datasourceStatus": f'{status}',
+                    "insertedAt": f'{inserted_at}'
+                    }
 
-        print(f'{insert}\n')
+            # Faz a inserção dos dados no banco
+            try:
+                dataModel.Insert_Gateways(insert)
+            except Exception as err:
+                print(f'gatewaysStatusController :: Erro ao inserir dados :: ERROR => {err}')
 
+    else:
+        print('gatewayStatusController :: deletar dados :: ERRO => não foi possível apagar os dados da tabela')
+
+else:
+    print('Não foi possivel fazer a consulta no banco de dados')
 
