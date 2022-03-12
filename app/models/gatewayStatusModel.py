@@ -54,4 +54,23 @@ def Insert_Gateways(data):
                             );
                             """
 
+    # inserindo dados no banco
+    try:
+        # Cria conexão com o banco 
+        conn = database.PgConnect()
+
+        # Define o cursor e executa a query
+        cur = conn.cursor()
+        cur.execute(query)
+        conn.commit()
+
+        # Ecncerra cursor e conexão
+        cur.close()
+        conn.close()
+
+        return True
+
+    except Exception as err:
+        print(f'MODELS : gatewayStatusModel :: ERROR => {err}')
+        return False
 
