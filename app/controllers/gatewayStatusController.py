@@ -61,4 +61,31 @@ except Exception as err:
 
 if connected == True:
 
-    print(db_return)
+    # Definindo API request
+    access_list = tkn.Token_Manager()
+
+    token_type = access_list["token_type"]
+    token = access_list["access_token"]
+
+    header = {
+            "Authorization": f"{token_type} {token}"
+            }
+
+    # Percorendo a lista de retorno do banco e fazendo o request da API
+    for datasetName, datasourceName, datasourceId, gatewayName, gatewayId in db_return:
+
+        url = f'https://api.powerbi.com/v1.0/myorg/gateways/{gatewayId}/datasources/{datasourceId}/status'
+
+        response = requests.request("GET", url, headers= header)
+
+        is_active = response.status_code
+
+        if is_active == 400:
+            status = 'inativo'
+        elif is_active == 200:
+            status = 'ativo'
+        else:
+            stauts = 'undefined'
+
+        print(f'Status: {status} with Code: {is_active}')
+
