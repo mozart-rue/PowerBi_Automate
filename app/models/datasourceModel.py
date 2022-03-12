@@ -30,7 +30,7 @@ def Insert_Datasources(data):
     
     # Recuperando valores para inserir
     dataset_name = data["dataset_name"]
-    dataset_id = data["dataset_is"]
+    dataset_id = data["dataset_id"]
     datasource_name = data["datasource_name"]
     conn_type = data["conn_type"]
     cred_type = data["cred_type"]
@@ -48,18 +48,18 @@ def Insert_Datasources(data):
 	            conection_type,
 	            cred_type,
 	            inserted_at
-            ) VALUES (
-                {dataset_id},
-                {dataset_name},
-                {datasource_name},
-                {datasource_id},
-                {gateway_id},
-                {conn_type},
-                {cred_type},
-                {inserted_at}
-            );
-            """
-           
+            ) VALUES ( 
+                '{dataset_id}',
+                '{dataset_name}',
+                '{datasource_name}',
+                '{datasource_id}',
+                '{gateway_id}',
+                '{conn_type}',
+                '{cred_type}',
+                '{inserted_at}'
+                );
+                """
+
     # Inserindo os dados no Banco
     try:
         # Cria conexão com o banco
@@ -68,7 +68,7 @@ def Insert_Datasources(data):
         # Define o cursor e executa a query
         cur = conn.cursor()
         cur.execute(query)
-        cur.fetchall()
+        conn.commit()
 
         # Encerra o cursor e a conexão
         cur.close()
@@ -77,6 +77,6 @@ def Insert_Datasources(data):
         # retorna concluido
         return True
     except Exception as err:
-        print(f'Inserindo dados datasources: ERRO :: {err}')
+        print(f'MODELS :: Inserindo dados datasources: ERRO :: {err}')
         return False
 
