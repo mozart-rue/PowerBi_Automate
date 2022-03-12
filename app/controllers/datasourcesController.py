@@ -29,7 +29,7 @@ from datetime import datetime
 
 import Manage_Token.index as tkn
 import database.postgres.main as pgconnection
-
+import app.models.datasourceModel as dataModel
 
 try:
     # Criando conexão com o Postgres
@@ -69,7 +69,6 @@ if connected == True:
             "Authorization": f"{token_type} {token}"
             }
 
-    datasources_dict = {}
 
     total_itens = len(db_return)
 
@@ -102,15 +101,24 @@ if connected == True:
         
         inserted_at = datetime.now()
 
-        print(f"""
-                    dataset_name: {name},
-                    dataset_id: {datasetId},
-                    datasource_name: {datasource_name},
-                    conn_type: {datasource_type},
-                    cred_type: {credential_type},
-                    gateway_id: {gatewayId},
-                    datasource_id: {datasourceId}
-                    inserted_at: {inserted_at}
-                \n""")
+        # Definindo dict para inserir no banco
+        insert = {
+                "dataset_name": f'{name}',
+                "dataset_id": f'{datasetId}',
+                "datasource_name": f'{datasource_name}',
+                "datasource_id": f'{datasourceId}',
+                "gateway_id": f'{gatewayId}',
+                "conn_type": f'{datasource_type}',
+                "cred_type": f'{credential_type}',
+                "inserted_at": f'{inserted_at}'
+                }
+        
+        # Inserindo no banco
+        try:
+            dataModel.Insert_Datasources(insert)
+        except Exception as err:
+            print(f'datasourceController: Insert to database: ERROR :: {err}')
 
+else:
+    print('Não foi possivel fazer a consulta no banco de dados')
 
