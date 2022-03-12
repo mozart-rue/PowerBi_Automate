@@ -68,27 +68,45 @@ if connected == True:
             "Authorization": f"{token_type} {token}"
             }
 
-    datasources_array = {}
+    datasources_dict = {}
 
     total_itens = len(db_return)
 
     for datasetId, name in db_return:
-        print(f'Name: {name}, id: {datasetId}')
         url = f"https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/datasources"
 
-        datasources = requests.request("GET", url, headers= header )
-        print(f'API 1:\n{datasources.json()}\n')
+        datasource = requests.request("GET", url, headers= header )
 
-        values = datasources.json()
+        values = datasource.json()
         value = values["value"]
 
         datasourceId = value[0]["datasourceId"]
         gatewayId = value[0]["gatewayId"]
         
-        print(f'Datasource ID: {datasourceId}, Gateway ID: {gatewayId}\n')
         url_gw = f'https://api.powerbi.com/v1.0/myorg/gateways/{gatewayId}/datasources/{datasourceId}'
 
-        datasources_complete = requests.request("GET", url_gw, headers= header )
+        datasource_detailed = requests.request("GET", url_gw, headers= header )
 
-        print(f'API 2: \n{datasources_complete.json()}\n')
+        # Recuperando dados do datasource detailed
+
+        data = datasource_detailed.json()
+
+        datasource_type = data["datasourceType"]
+        credential_type = data["credentialType"]
+        
+        try:
+            datasource_name = data["datasourceName"]
+        except:
+            datasource_name = "undefined"
+        
+        print(f"""
+                    dataset_name: {name},
+                    dataset_id: {datasetId},
+                    datasource_name: {datasource_name},
+                    conn_type: {datasource_type},
+                    cred_type: {credential_type},
+                    gateway_id: {gatewayId},
+                    datasource_id: {datasourceId}
+                \n""")
+
 
