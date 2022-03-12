@@ -74,3 +74,23 @@ def Insert_Gateways(data):
         print(f'MODELS : gatewayStatusModel :: ERROR => {err}')
         return False
 
+
+# Função que faz o delete da tabela
+def Delete_Gateways():
+    # cria conexão com o banco 
+    try:
+        conn = database.PgConnect()
+
+        cur = conn.cursor()
+        cur.execute("DELETE * FROM gateways")
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        return True
+    except Exception as err:
+        print(f'MODELS : gatewayStatusModel :: Delete :: ERROR => {err}')
+        return False
+
+
