@@ -29,6 +29,7 @@ from datetime import datetime
 
 import database.postgres.main as database
 import Manage_Token.index as tkn
+import app.models.refreshHistoryModel as dataModel
 
 # Recuperando dados do banco para usar como parametro
 try:
@@ -75,7 +76,20 @@ if connected == True:
 
         # Se a lista não estiver vazia continua para inserir
         if data:
-        
+
+            # Apaga os dados antes de inserir para não duplicar
+            total_itens = len(data) -1
+            
+            # recupera a data do item mais antigo a ser inserido
+            delete_from = data[total_itens]["startTime"]
+
+            # transforma para o tipo de dado certo => de string para date
+            delete_from = delete_from.replace("T", " ")
+            delete_from = delete_from.replace("Z", "")
+            delete_from = datetime.strptime(delete_from, '%Y-%m-%d %H:%M:%S.%f')
+
+            dataModel.Delete_RefreshHistory(delete_from, name, datasetId)
+
             for i in data:
 
                 # Recupera valores para inserir no banco
@@ -113,9 +127,11 @@ if connected == True:
                         "history_id": f"{history_id}",
                         "inserted_at": f"{created_at}"
                         }
+                try:
+                    dataModel.Insert_RefreshHistory(insert) 
+                except Exception as err:
+                    print(f'refreshHistoryController :: Insert dados no banco :: ERROR => {err}')
 
-                print(f'{insert}\n')
-                        
         else:
             print(f"{datasetId} Name: {name} não posui historico de atualizações ainda")
 
