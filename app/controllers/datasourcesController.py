@@ -1,6 +1,7 @@
 # API: GET Datasources 
 # Documentation: https://docs.microsoft.com/en-us/rest/api/power-bi/datasets/get-datasources
 # Documentatio 2: https://docs.microsoft.com/en-us/rest/api/power-bi/gateways/get-datasource
+# Documentation Gateway details: https://docs.microsoft.com/en-us/rest/api/power-bi/gateways/get-gateway#code-try-0
 
 # ----------------------- ADD RAIZ DO PROJETO AO ARQUIVO  ----------------------- #
 # Adicionando o path para a Raiz do projeto dinamicamente para fazer a importação de arquivos.py
@@ -25,6 +26,7 @@ sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
 import requests
+
 from datetime import datetime
 
 import Manage_Token.index as tkn
@@ -90,13 +92,17 @@ if connected == True:
         # Chamando API que retorna detalhes sobre o gateway
         url_gw_detail = f'https://api.powerbi.com/v1.0/myorg/gateways/{gatewayId}'
 
-        gateway_detailed = requests.request("GET", url_gw_detail, headers= header)
-
-        # Recuperando dados detalhados do gateway
-        gw_data = gateway_detailed.json()
         
-        gateway_name = gw_data["name"]
-        gateway_status = gw_data["gatewayStatus"]
+        gateway_detailed = requests.request("GET", url_gw_detail, headers= header)
+        try:
+            # Recuperando dados detalhados do gateway
+            gw_data = gateway_detailed.json()
+        
+            gateway_name = gw_data["name"]
+            gateway_status = gw_data["gatewayStatus"]
+        except:
+            gateway_name = "undefined"
+            gateway_status = "undefined"
 
         # Recuperando dados do datasource detailed
 
