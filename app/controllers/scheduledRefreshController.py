@@ -24,7 +24,7 @@ sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
 import requests
-import datetime
+from datetime import datetime
 
 import database.postgres.main as database
 import Manage_Token.index as tkn
@@ -69,13 +69,25 @@ if connected == True:
 
         if response.status_code == 200:
             res = response.json()
-            week_days = res["days"]
             refreshes_times = res["times"]
             is_active = res["enabled"]
+            
+            created_at = datetime.now()
 
-            for times in refreshes_times:
+            for refresh in refreshes_times:
+
+                # mudando tipo de dado no item horario de atualização
                 try:
-                    print(f"Name: {name}: refresh at: {times} and is {is_active}")
+                    insert = {
+                            "dataset_name": f'{name}',
+                            "dataset_id": f'{datasetId}',
+                            "scheduled_refresh": refresh,
+                            "is_active": f'{is_active}',
+                            "created_at": f'{created_at}'
+                            }
+                    
+                    print(f'{insert}\n')
+
                 except Exception as err:
                     print(f"Something went wrong :: ERROR => {err}")
 
