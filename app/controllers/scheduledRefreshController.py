@@ -68,8 +68,16 @@ if connected == True:
         response = requests.request("GET", url, headers= header)
 
         if response.status_code == 200:
-            print('requisição bem sucedida!')
-            print(f'{response.json()}\n')
+            res = response.json()
+            week_days = res["days"]
+            refreshes_times = res["times"]
+            is_active = res["enabled"]
+
+            for times in refreshes_times:
+                try:
+                    print(f"Name: {name}: refresh at: {times} and is {is_active}")
+                except Exception as err:
+                    print(f"Something went wrong :: ERROR => {err}")
 
 else:
     print("scheduleRefreshController :: Não foi possivel conectar ao banco")
