@@ -28,6 +28,7 @@ from datetime import datetime
 
 import database.postgres.main as database
 import Manage_Token.index as tkn
+import app.models.scheduledRefreshModel as dataModel
 
 # Recuperando informações do Banco
 try:
@@ -60,6 +61,19 @@ if connected == True:
     header = {
             "Authorization": f"{token_type} {token}"
             }
+    
+    # antes de iniciar apaga os dados da tabela
+    try:
+        conn = database.PgConnect()
+
+        cur = conn.cursor()
+        cur.execute('DELETE FROM scheduled_refresh')
+        conn.commit()
+
+        cur.close()
+        conn.close()
+    except Exception as err:
+        print(f'scheduledRefreshController :: Delete from scheduled_refresh :: ERROR => {err}')
 
     for datasetId, name in db_return:
 
