@@ -72,7 +72,18 @@ if connected == True:
             }
 
 
-    total_itens = len(db_return)
+    # Fazendo o delete antes de prosseguir
+    try:
+        conn = pgconnection.PgConnect()
+
+        cur = conn.cursor()
+        cur.execute("DELETE FROM datasources")
+        conn.commit()
+
+        cur.close()
+        conn.close()
+    except Exception as err:
+        print(f"datasouceController :: Deletando base de dados :: ERROR => {err}")
 
     for datasetId, name in db_return:
         url = f"https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/datasources"
