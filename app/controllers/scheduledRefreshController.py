@@ -85,17 +85,21 @@ if connected == True:
             res = response.json()
             refreshes_times = res["times"]
             is_active = res["enabled"]
-            
+             
             created_at = datetime.now()
+            
 
             for refresh in refreshes_times:
+                
+                # transfomando tipo de dado do refreshes_times de string para date
+                refreshes = datetime.strptime(refresh, "%H:M%").time()
 
                 # mudando tipo de dado no item horario de atualização
                 try:
                     insert = {
                             "dataset_name": f'{name}',
                             "dataset_id": f'{datasetId}',
-                            "scheduled_refresh": refresh,
+                            "scheduled_refresh": f'{refreshes}',
                             "is_active": f'{is_active}',
                             "created_at": f'{created_at}'
                             }
