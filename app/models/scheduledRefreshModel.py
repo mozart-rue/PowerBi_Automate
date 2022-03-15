@@ -21,4 +21,31 @@ path = Resolve_Path()
 sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
+import database.postgres.main as database
 
+# Criando funcao para inserir no banco
+def Insert_Schedule(data):
+
+    # recupera os dados
+    dataset_name = data["dataset_name"]
+    dataset_id = data["dataset_id"]
+    is_active = data["is_active"]
+    scheduled = data["scheduled_refresh"]
+    inserted_at = data["created_at"]
+
+    # define a query de inserção
+    query = f"""INSERT INTO scheduled_refresh (
+                    dataset_name,
+                    dataset_id,
+                    ativo,
+                    atualizacao,
+                    inserted_at
+                    ) VALUES (
+                    '{dataset_name}',
+                    '{dataset_id}',
+                    '{is_active}',
+                    '{scheduled}',
+                    '{inserted_at}'
+                    );"""
+
+    
