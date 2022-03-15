@@ -54,5 +54,22 @@ if connected == True:
     # Definindo parametros para fazer o requests na API
     access_list = tkn.Token_Manager()
 
+    token_type = access_list["token_type"]
+    token = access_list["access_token"]
+
+    header = {
+            "Authorization": f"{token_type} {token}"
+            }
+
+    for datasetId, name in db_return:
+
+        url = f'https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/refreshSchedule'
+
+        response = requests.request("GET", url, headers= header)
+
+        if response.status_code == 200:
+            print('requisição bem sucedida!')
+            print(f'{response.json()}\n')
+
 else:
     print("scheduleRefreshController :: Não foi possivel conectar ao banco")
