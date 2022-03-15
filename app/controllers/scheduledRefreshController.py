@@ -99,9 +99,14 @@ if connected == True:
                             "is_active": f'{is_active}',
                             "created_at": f'{created_at}'
                             }
-                    
-                    print(f'{insert}\n')
 
+                    # Inserindo dados no banco
+                    try:
+                        dataModel.Insert_Schedule(insert)
+                    except Exception as err:
+                        print(f'scheduledRefreshController :: Insert no banco de dados :: ERROR => {err}')
+                        pass
+                                
                 except Exception as err:
                     print(f"Something went wrong :: ERROR => {err}")
 
