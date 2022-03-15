@@ -23,4 +23,36 @@ path = Resolve_Path()
 sys.path.append(os.path.abspath(f"{path}"))
 # ---------------------------------------------------------------------------------- #
 
+import requests
+import datetime
 
+import database.postgres.main as database
+import Manage_Token.index as tkn
+
+# Recuperando informações do Banco
+try:
+    conn = database.PgConnect()
+
+    # Definindo o cursor e fazendo consulta
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, name FROM datasets")
+    db_return = cur.fetchall()
+
+    # Enceranod conexão com o banco
+    cur.close()
+    conn.close()
+
+    connected = True
+except Exception as err:
+    print(f"scheduleRefreshController :: Conexão/Leitura do banco de dados :: ERROR => {err}")
+    connected = False
+
+
+if connected == True:
+    
+    # Definindo parametros para fazer o requests na API
+    access_list = tkn.Token_Manager()
+
+else:
+    print("scheduleRefreshController :: Não foi possivel conectar ao banco")
