@@ -48,4 +48,23 @@ def Insert_Schedule(data):
                     '{inserted_at}'
                     );"""
 
-    
+    # Inserindo dados no banco
+    try:
+        conn = database.PgConnect()
+
+        # definindo cursor
+        cur = conn.cursor()
+
+        cur.execute(query)
+        conn.commit()
+
+        # encerando conexão com o banco
+        cur.close()
+        conn.close()
+
+        return True
+
+    except Exception as err:
+        print(f"scheduledRefreshModel :: Inserindo dados no banco :: ERROR => {err}")
+        return False
+
