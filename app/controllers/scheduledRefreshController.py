@@ -92,7 +92,7 @@ if connected == True:
             for refresh in refreshes_times:
                 
                 # transfomando tipo de dado do refreshes_times de string para date
-                refreshes = datetime.strptime(refresh, "%H:M%").time()
+                refreshes = datetime.strptime(refresh, "%H:%M").time()
 
                 # mudando tipo de dado no item horario de atualização
                 try:
