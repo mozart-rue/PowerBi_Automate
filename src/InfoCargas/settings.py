@@ -11,6 +11,17 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+# Recuperando informações para acessos
+load_dotenv()
+KEYSECRET = os.getenv("SECRET_KEY")
+PG_HOST = os.getenv("PGHOST")
+PG_PORT = os.getenv("PGPORT")
+PG_USER = os.getenv("PGUSER")
+PG_KEY = os.getenv("PGKEY")
+PG_DB = os.getenv("PGDB")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ixmfs@ck319)5397bt(m^h54=nbp#l1hz)npz#&2&l*y293(t9'
+SECRET_KEY = KEYSECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,8 +86,12 @@ WSGI_APPLICATION = 'InfoCargas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': f'{PG_DB}',
+        'USER': f'{PG_USER}',
+        'PASSWORD': f'{PG_KEY}',
+        'HOST': f'{PG_HOST}',
+        'PORT': f'{PG_PORT}'
     }
 }
 
