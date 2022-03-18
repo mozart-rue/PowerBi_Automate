@@ -64,6 +64,9 @@ def GET_Datasets():
     # Filtrando os dados do Dataframe
     response_df = response_df[["id", "name", "webUrl", "isRefreshable", "isOnPremGatewayRequired"]]
 
+    # Renomeando colunas antes de inserir no banco
+    response_df = response_df.rename(columns={"id": "dataset_id", "webUrl": "dataset_url"})
+
     # Criar conexão com banco
     engine = db_engine.PgEngineConn()
 

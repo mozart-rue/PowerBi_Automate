@@ -41,7 +41,7 @@ try:
     cur = conn.cursor()
 
     # Fazendo consulta no postgres
-    query = 'Select id, name from datasets'
+    query = 'Select dataset_id, name from datasets'
 
     cur.execute(query)
 

@@ -39,7 +39,7 @@ try:
     cur = conn.cursor()
 
     # Executando query no banco
-    cur.execute("SELECT id, name FROM datasets")
+    cur.execute("SELECT dataset_id, name FROM datasets")
     db_return = cur.fetchall()
 
     # Encera a conexão com o banco de dados
