@@ -4,13 +4,14 @@ from django.db import models
 
 # Datasets Model
 class Datasets(models.Model):
-    id = models.TextField(blank=True, null=True)
+    dataset_id = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
-    weburl = models.TextField(db_column='webUrl', blank=True, null=True)  # Field name made lowercase.
+    dataset_url = models.TextField(db_column='dataset_url', blank=True, null=True)  # Field name made lowercase.
     isrefreshable = models.BooleanField(db_column='isRefreshable', blank=True, null=True)  # Field name made lowercase.
     isonpremgatewayrequired = models.BooleanField(db_column='isOnPremGatewayRequired', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
+        managed = False
         db_table = 'datasets'
 
     def __str__(self):
@@ -31,6 +32,7 @@ class Datasources(models.Model):
     inserted_at = models.DateTimeField()
 
     class Meta:
+        managed = False
         db_table = 'datasources'
 
     def __str__(self):
@@ -48,6 +50,7 @@ class Gateways(models.Model):
     inserted_at = models.DateTimeField()
 
     class Meta:
+        managed = False
         db_table = 'gateways'
 
     def __str__(self):
@@ -68,6 +71,7 @@ class RefreshHistory(models.Model):
     inserted_at = models.DateTimeField()
 
     class Meta:
+        managed = False
         db_table = 'refresh_history'
 
     def __str__(self):
@@ -83,6 +87,7 @@ class ScheduledRefresh(models.Model):
     inserted_at = models.DateTimeField()
 
     class Meta:
+        managed = False
         db_table = 'scheduled_refresh'
 
     def __str__(self):
