@@ -1,0 +1,35 @@
+/* 
+* Estilização da base.html
+*/
+
+.container{
+    margin: auto;
+    padding: 0;
+    background-color: #191C28;
+}
+
+.navbar {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    background-color: lightslategrey;
+    padding: 10px;
+}
+
+.navbar-logo {
+    height: 16px;
+    flex: 1;
+    justify-content: flex-start;
+    margin-left: 18px;
+}
+
+.navbar-logo h2 {
+    margin-top: 0;
+}
+
+.navbar-user {
+    height: 18px;
+    justify-content: flex-end;
+    margin-right: 18px;
+    margin-top: 10px;
+}
