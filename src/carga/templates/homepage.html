@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Homepage|InfoCargas{% endblock titulo %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/homepage/index.css' %}">
+{% endblock head %}
+
+{% block content %}
+<header>
+    <div class="head_totals">
+        <!--Itens que fazem o display resumido de cargas -->
+        <div class="head_totals-err">
+            <h5>Cargas com Falha</h5>
+            <h1>7</h1>
+        </div>
+
+        <div class="head_totals-ps">
+            <h5>Cargas Em Andamento</h5>
+            <h1>20</h1>
+        </div>
+
+        <div class="head_totals-cp">
+            <h5>Cargas Atualizadas</h5>
+            <h1>112</h1>
+        </div>
+
+        <div class="head_totals-ds">
+            <h5>Cargas Desabilitadas</h5>
+            <h1>17</h1>
+        </div>
+    </div>
+</header>
+{% endblock content %}
