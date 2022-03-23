@@ -1,0 +1,81 @@
+/* 
+* Div pai que contém todos os cartoes
+*/
+.head_totals {
+    padding: 15px;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    width: 80%;
+    margin-left: 10%;
+    gap: 20%;
+}
+
+/* 
+* Div que representa falhas
+*/
+.head_totals-err {
+    margin-left: 5px;
+    text-align: center;
+    border: 2px solid #8B0000;
+    border-radius: 20px;
+}
+
+.head_totals-err h5 {
+    color: lightslategrey;
+}
+
+.head_totals-err h1 {
+    color: #8B0000;
+}
+
+/* 
+* Div que representa em andamento
+*/
+.head_totals-ps {
+    text-align: center;
+    border: 2px solid #FFCC00;
+    border-radius: 20px;
+}
+
+.head_totals-ps h5 {
+    color: lightslategrey;
+}
+
+.head_totals-ps h1 {
+    color: #FFCC00;
+}
+
+/* 
+* Div que representa concluidas
+*/
+.head_totals-cp {
+    text-align: center;
+    border: 2px solid #006600;
+    border-radius: 20px;
+}
+
+.head_totals-cp h5 {
+    color: lightslategrey;
+}
+
+.head_totals-cp h1 {
+    color: #006600;
+}
+
+/* 
+* Div que representa desabilitadas
+*/
+.head_totals-ds {
+    text-align: center;
+    border: 2px solid #FFFFFF;
+    border-radius: 20px;
+}
+
+.head_totals-ds h5 {
+    color: lightslategrey;
+}
+
+.head_totals-ds h1 {
+    color: #FFFFFF;
+}
