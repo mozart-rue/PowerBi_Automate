@@ -8,7 +8,4 @@ from .models import Datasets
 # view homepage
 class Homepage(generic.ListView):
     model = Datasets
-    template_name = "homeCargas.html"
-
-class hometeste(generic.TemplateView):
-    template_name = "base.html"
+    template_name = "homepage.html"
