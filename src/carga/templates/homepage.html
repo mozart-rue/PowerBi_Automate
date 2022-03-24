@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block titulo %} Homepage|InfoCargas{% endblock titulo %}
+{% block titulo %} Homepage | InfoCargas{% endblock titulo %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/homepage/index.css' %}">
 {% endblock head %}
@@ -12,7 +12,7 @@
         <!--Itens que fazem o display resumido de cargas -->
         <div class="head_totals-err">
             <h5>Cargas com Falha</h5>
-            <h1>7</h1>
+            <h1>{{failedRefresh}}</h1>
         </div>
 
         <div class="head_totals-ps">
@@ -22,7 +22,7 @@
 
         <div class="head_totals-cp">
             <h5>Cargas Atualizadas</h5>
-            <h1>112</h1>
+            <h1>{{completeRefresh}}</h1>
         </div>
 
         <div class="head_totals-ds">
@@ -31,4 +31,30 @@
         </div>
     </div>
 </header>
+
+<!--Section com conteudo vindo do banco-->
+<section>
+    <!--Tabela com os dados retornoados do banco-->
+    <table>
+        <!--Cabeçalho da tabela-->
+        <tr>
+            <th>NOME</th>
+            <th>STATUS</th>
+            <th>TIPO</th>
+            <th>INICIO</th>
+            <th>TEMPO TOTAL</th>
+        </tr>
+        {% for detalhe in historicoDetalhado %}
+        <!--itens da tabela-->
+        <tr>
+            <td>{{ detalhe.dataset_name }}</td>
+            <td>{{ detalhe.status }}</td>
+            <td>{{ detalhe.refresh_type }}</td>
+            <td>{{ detalhe.started_at }}</td>
+            <td>{{ detalhe.total_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</section>
 {% endblock content %}
