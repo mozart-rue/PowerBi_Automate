@@ -4,7 +4,7 @@ from django.db import models
 
 # Datasets Model
 class Datasets(models.Model):
-    dataset_id = models.TextField(blank=True, null=True)
+    dataset_id = models.TextField(primary_key=True, max_length=255)
     name = models.TextField(blank=True, null=True)
     dataset_url = models.TextField(db_column='dataset_url', blank=True, null=True)  # Field name made lowercase.
     isrefreshable = models.BooleanField(db_column='isRefreshable', blank=True, null=True)  # Field name made lowercase.
@@ -63,7 +63,7 @@ class RefreshHistory(models.Model):
     dataset_id = models.CharField(max_length=255)
     status = models.CharField(max_length=25, blank=True, null=True)
     refresh_type = models.CharField(max_length=25)
-    request_id = models.CharField(max_length=255)
+    request_id = models.CharField(primary_key=True,max_length=255)
     history_id = models.CharField(max_length=255)
     started_at = models.DateTimeField()
     ended_at = models.DateTimeField()
