@@ -1,0 +1,24 @@
+.refreshes {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px;
+}
+
+.refreshes-table {
+    width: 100%;
+    text-align: center;
+    border: 1px solid #1E90FF;
+    border-radius: 18px;
+}
+
+.refreshes-table-head {
+    color: lightslategrey;
+}
+
+.refreshes-table-head th {
+    padding: 10px 0;
+}
+
+.refreshes-table-items {
+    color: wheat;
+}
