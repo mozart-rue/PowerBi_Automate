@@ -1,3 +1,10 @@
 .env
 .tool-versions
 database/firebase/config/serviceAccountKey.json
+app/models/__pycache__
+database/firebase/__pycache__
+database/postgres/__pycache__
+Manage_Token/__pycache__
+src/carga/__pycache__
+src/InfoCargas/__pycache__
+src/carga/migrations/__pycache__
