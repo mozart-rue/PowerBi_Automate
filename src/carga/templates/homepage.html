@@ -4,6 +4,7 @@
 {% block titulo %} Homepage | InfoCargas{% endblock titulo %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/homepage/index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/homepage/table.css' %}">
 {% endblock head %}
 
 {% block content %}
@@ -33,11 +34,11 @@
 </header>
 
 <!--Section com conteudo vindo do banco-->
-<section>
+<section class="refreshes">
     <!--Tabela com os dados retornoados do banco-->
-    <table>
+    <table class="refreshes-table">
         <!--Cabeçalho da tabela-->
-        <tr>
+        <tr class="refreshes-table-head">
             <th>NOME</th>
             <th>STATUS</th>
             <th>TIPO</th>
@@ -46,7 +47,7 @@
         </tr>
         {% for detalhe in historicoDetalhado %}
         <!--itens da tabela-->
-        <tr>
+        <tr class="refreshes-table-items">
             <td>{{ detalhe.dataset_name }}</td>
             <td>{{ detalhe.status }}</td>
             <td>{{ detalhe.refresh_type }}</td>
