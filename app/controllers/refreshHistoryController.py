@@ -96,23 +96,39 @@ if connected == True:
                 refresh_type = i["refreshType"]
                 status = i["status"]
                 start_time = i["startTime"]
-                end_time = i["endTime"]
                 request_id = i["requestId"]
                 history_id = i["id"]
 
                 created_at = datetime.now()
                 
-                # removendo strings da data de retorno
+                # limpando strings da data de retorno
                 start_time = start_time.replace("T", " ")
                 start_time = start_time.replace("Z", "")
 
-                end_time = end_time.replace("T", " ")
-                end_time = end_time.replace("Z", "")
-
                 # alterando formato de campo de data de string para date
-                startTime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
-                endTime = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S.%f')
-                total_time = endTime - startTime
+                try:
+                    startTime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S.%f')
+                except:
+                    startTime = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+
+                # end time, tem condição especial, Caso status esteja em progresso, não possui data de finalização
+                if i["status"] == "Unknown":
+                    endTime = ""
+                    total_time = ""
+                    status = "InProgress"
+                else:
+                    end_time = i['endTime']
+                    end_time = end_time.replace("T", " ")
+                    end_time = end_time.replace("Z", "")
+
+                    # alterando formato de campo de data de string para date
+                    try:
+                        endTime = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S.%f')
+                    except:
+                        endTime = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S')
+                    
+                    # Calcula tempo total de atualização
+                    total_time = endTime - startTime
 
                 # Criando dict para inserir no banco
                 insert = {
