@@ -30,36 +30,62 @@ def Insert_RefreshHistory(data):
     status = data["status"]
     refresh_type = data["refresh_type"]
     start_time = data["start_time"]
-    end_time = data["end_time"]
-    total_time = data["total_time"]
     request_id = data["request_id"]
     history_id = data["history_id"]
     inserted_at = data["inserted_at"]
 
-    # Definindo query de inserção
-    query = f"""INSERT INTO refresh_history (
-                        dataset_name,
-	                    dataset_id,
-                        status,
-                        refresh_type,
-                        request_id,
-	                    history_id,
-                        started_at,
-	                    ended_at,
-                    	total_time,
-	                    inserted_at
-                        ) VALUES (
-                        '{dataset_name}',
-                        '{dataset_id}',
-                        '{status}',
-                        '{refresh_type}',
-                        '{request_id}',
-                        '{history_id}',
-                        '{start_time}',
-                        '{end_time}',
-                        '{total_time}',
-                        '{inserted_at}'
-                        ); """
+    # Caso não tenha os dados de tempo de finalização de total de execução
+    if data["end_time"]:
+
+        # Se receber data de finalização defini para inserir
+        end_time = data["end_time"]
+        total_time = data["total_time"]
+
+        # Definindo query de inserção
+        query = f"""INSERT INTO refresh_history (
+                            dataset_name,
+                            dataset_id,
+                            status,
+                            refresh_type,
+                            request_id,
+                            history_id,
+                            started_at,
+                            ended_at,
+                            total_time,
+                            inserted_at
+                            ) VALUES (
+                            '{dataset_name}',
+                            '{dataset_id}',
+                            '{status}',
+                            '{refresh_type}',
+                            '{request_id}',
+                            '{history_id}',
+                            '{start_time}',
+                            '{end_time}',
+                            '{total_time}',
+                            '{inserted_at}'
+                            ); """
+    else:
+        # não defini os valores de end_time e total_time
+        query = f"""INSERT INTO refresh_history (
+                            dataset_name,
+                            dataset_id,
+                            status,
+                            refresh_type,
+                            request_id,
+                            history_id,
+                            started_at,
+                            inserted_at
+                            ) VALUES (
+                            '{dataset_name}',
+                            '{dataset_id}',
+                            '{status}',
+                            '{refresh_type}',
+                            '{request_id}',
+                            '{history_id}',
+                            '{start_time}',
+                            '{inserted_at}'
+                            ); """
 
     # Criando conexão ao banco e aplicando a inserção
     try:
