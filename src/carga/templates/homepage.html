@@ -18,7 +18,7 @@
 
         <div class="head_totals-ps">
             <h5>Cargas Em Andamento</h5>
-            <h1>20</h1>
+            <h1>{{inProgressRefresh}}</h1>
         </div>
 
         <div class="head_totals-cp">
@@ -28,7 +28,7 @@
 
         <div class="head_totals-ds">
             <h5>Cargas Desabilitadas</h5>
-            <h1>17</h1>
+            <h1>0</h1>
         </div>
     </div>
 </header>
@@ -45,7 +45,7 @@
             <th>INICIO</th>
             <th>TEMPO TOTAL</th>
         </tr>
-        {% for detalhe in historicoDetalhado %}
+        {% for detalhe in lastRefresh %}
         <!--itens da tabela-->
         <tr class="refreshes-table-items">
             <td>{{ detalhe.dataset_name }}</td>
