@@ -92,3 +92,24 @@ class ScheduledRefresh(models.Model):
 
     def __str__(self):
         return self.dataset_name_name
+
+
+# LastRefresh Model
+class LastRefresh(models.Model):
+    dataset_name = models.CharField(max_length=50)
+    dataset_id = models.CharField(max_length=255)
+    status = models.CharField(max_length=25, blank=True, null=True)
+    refresh_type = models.CharField(max_length=25)
+    request_id = models.CharField(primary_key=True,max_length=255)
+    history_id = models.CharField(max_length=255)
+    started_at = models.DateTimeField()
+    ended_at = models.DateTimeField()
+    total_time = models.TimeField()
+    inserted_at = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'last_refresh'
+
+    def __str__(self):
+        return self.dataset_name
