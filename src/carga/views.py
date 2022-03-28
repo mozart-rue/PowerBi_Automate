@@ -1,20 +1,20 @@
 from django.shortcuts import render
 from django.views import generic
 
-from .models import LastRefresh, RefreshHistory
+from .models import LastRefresh, Datasets
 
 # Create your views here.
 
 # view homepage
 class Homepage(generic.ListView):
-    model = LastRefresh
+    model = Datasets
     template_name = "homepage.html"
     
     def get_context_data(self, **kwargs):
         context = super(Homepage, self).get_context_data(**kwargs)
-        # Filtrar a tabela de filmes pegando os filmes com categoria é igual a categoria do filme da pagina
-        last_refresh = LastRefresh.objects.distinct('dataset_name')
-        context["lastRefresh"] = last_refresh
+        
+        queryset = LastRefresh.objects.all().select_related('dataset_name', 'dataset_id')
+        context["lastRefresh"] = queryset
 
         failedRefresh = LastRefresh.objects.filter(status = 'Failed').count()
         completeRefresh = LastRefresh.objects.filter(status = 'Completed').count()
