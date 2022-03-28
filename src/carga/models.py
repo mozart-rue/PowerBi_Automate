@@ -4,8 +4,8 @@ from django.db import models
 
 # Datasets Model
 class Datasets(models.Model):
-    dataset_id = models.TextField(primary_key=True, max_length=255)
-    name = models.TextField(blank=True, null=True)
+    dataset_id = models.TextField(max_length=255)
+    name = models.CharField(primary_key=True, max_length=50)
     dataset_url = models.TextField(db_column='dataset_url', blank=True, null=True)  # Field name made lowercase.
     isrefreshable = models.BooleanField(db_column='isRefreshable', blank=True, null=True)  # Field name made lowercase.
     isonpremgatewayrequired = models.BooleanField(db_column='isOnPremGatewayRequired', blank=True, null=True)  # Field name made lowercase.
@@ -13,15 +13,15 @@ class Datasets(models.Model):
     class Meta:
         managed = False
         db_table = 'datasets'
+        default_related_name = 'datasets'
 
     def __str__(self):
         return self.name
 
-
 # Datasources Model
 class Datasources(models.Model):
     dataset_id = models.CharField(primary_key=True, max_length=255)
-    dataset_name = models.CharField(max_length=50)
+    dataset_name = models.ForeignKey(Datasets, on_delete=models.PROTECT, db_column='dataset_name')  #CharField(max_length=50)
     datasource_name = models.CharField(max_length=50, blank=True, null=True)
     datasource_id = models.CharField(max_length=255)
     gateway_id = models.CharField(max_length=255)
@@ -34,6 +34,7 @@ class Datasources(models.Model):
     class Meta:
         managed = False
         db_table = 'datasources'
+        default_related_name = 'datasources'
 
     def __str__(self):
         return self.datasource_name
@@ -94,10 +95,10 @@ class ScheduledRefresh(models.Model):
         return self.dataset_name_name
 
 
-# LastRefresh Model
+# LastRefresh Model 
 class LastRefresh(models.Model):
-    dataset_name = models.CharField(max_length=50)
-    dataset_id = models.CharField(max_length=255)
+    dataset_name = models.ForeignKey(Datasets, on_delete=models.PROTECT, db_column="dataset_name")      #CharField(max_length=50)
+    dataset_id = models.ForeignKey(Datasources, on_delete=models.PROTECT, db_column="dataset_id")  #CharField(max_length=255)
     status = models.CharField(max_length=25, blank=True, null=True)
     refresh_type = models.CharField(max_length=25)
     request_id = models.CharField(primary_key=True,max_length=255)
@@ -110,6 +111,7 @@ class LastRefresh(models.Model):
     class Meta:
         managed = False
         db_table = 'last_refresh'
+        default_related_name = 'lastRefreshes'
 
     def __str__(self):
         return self.dataset_name
