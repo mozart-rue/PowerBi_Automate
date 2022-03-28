@@ -42,8 +42,10 @@
             <th>NOME</th>
             <th>STATUS</th>
             <th>TIPO</th>
+            <th>GATEWAY STATUS</th>
             <th>INICIO</th>
             <th>TEMPO TOTAL</th>
+            <th>LINK BI</th>
         </tr>
         {% for detalhe in lastRefresh %}
         <!--itens da tabela-->
@@ -51,8 +53,10 @@
             <td>{{ detalhe.dataset_name }}</td>
             <td>{{ detalhe.status }}</td>
             <td>{{ detalhe.refresh_type }}</td>
+            <td>{{ detalhe.dataset_id.gateway_status}}</td>
             <td>{{ detalhe.started_at }}</td>
             <td>{{ detalhe.total_time }}</td>
+            <td><a href="{{detalhe.dataset_name.dataset_url}}" target="_blank">Open BI</a></td>
         </tr>
         {% endfor %}
     </table>
